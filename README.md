@@ -6,4 +6,4 @@
 
 このModを利用するにあたり、問題が発生しても一切責任を負いません。
 
-このModの導入は(こちら)[https://steamcommunity.com/sharedfiles/filedetails/?id=3000046504]
+このModの導入は[こちら](https://steamcommunity.com/sharedfiles/filedetails/?id=3000046504)
