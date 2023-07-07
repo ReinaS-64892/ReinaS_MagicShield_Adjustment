@@ -1,6 +1,7 @@
 using HarmonyLib;
 using Oc;
 using UnityEngine;
+using System.Reflection;
 
 namespace ReinaS_MagicShield_Adjustment
 {
@@ -21,13 +22,13 @@ namespace ReinaS_MagicShield_Adjustment
             }
 
 
-            var MagicShieldInstans = ____Pl.PlCommon.transform.Find("Effect/MagicBarrier");
-            if (MagicShieldInstans == null) return;
+            var MagicShieldGameObject = ____Pl.PlCommon.GetType().GetField("_MagicBarrier", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(____Pl.PlCommon) as GameObject;
+            if (MagicShieldGameObject == null) return;
 
             var ScaleOffset = MSA_PluginCore.SizeOffset.Value;
             var HeightOffset = MSA_PluginCore.HeightOffset.Value;
 
-            AdjustUtility.Adjustment(Animator, MagicShieldInstans, ScaleOffset, HeightOffset);
+            AdjustUtility.Adjustment(Animator, MagicShieldGameObject.transform, ScaleOffset, HeightOffset);
 
         }
 
