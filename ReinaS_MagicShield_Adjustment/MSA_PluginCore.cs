@@ -52,33 +52,43 @@ namespace ReinaS_MagicShield_Adjustment
 
         }
 
-        public static float GetHaight(Avatar Avatar)
-        {
-            var avatarhumanDescription = Avatar.humanDescription;
-            var avatarHuman = avatarhumanDescription.human;
-            var avatarSkelton = avatarhumanDescription.skeleton;
+        public static string Hips = "Hips";
+        public static string[] UpperBoneNames = new string[] { "Spine", "Chest", "UpperChest", "Neck", "Head" };
+        public static string[] lowerBoneNames = new string[] { "LeftUpperLeg", "LeftLowerLeg", "LeftFoot", "LeftToes" };
 
+        public static float GetHaight(Avatar Avatar)//Unity基準のY軸が高さとして認識する
+        {
+            var HumanDescription = Avatar.humanDescription;
             var hight = 0f;
 
-
-            var SerchHumanNames = new string[] { "Hips", "Spine", "Chest", "UpperChest", "Neck", "Head" };
-            foreach (var HumanName in SerchHumanNames)
+            foreach (var Name in UpperBoneNames)
             {
-                var BoneIndex = Array.FindIndex(avatarHuman, I => I.humanName == HumanName);
-                if (BoneIndex == -1) continue;
-                var bonename = avatarHuman[BoneIndex].boneName;
-                var SkeltonBone = Array.Find(avatarSkelton, I => I.name == bonename);
-                hight += SkeltonBone.position.y;
-
-                if (SerchHumanNames[0] == HumanName && SkeltonBone.position.y < 0.1f)//腰が埋まっているモデル用(主に標準モデル用)
-                {
-                    hight += 1;
-                }
-
+                var Bone = HumanDescription.GetSkeletonBone(Name);
+                if (Bone == null) continue;
+                hight += Mathf.Abs(Bone.Value.position.y);
             }
 
+            foreach (var Name in lowerBoneNames)
+            {
+                var Bone = HumanDescription.GetSkeletonBone(Name);
+                if (Bone == null) continue;
+                hight += Mathf.Abs(Bone.Value.position.y);
+            }
 
             return hight;
         }
+
+        public static SkeletonBone? GetSkeletonBone(this HumanDescription avatarhumanDescription, string HumanName)
+        {
+            var HumanBones = avatarhumanDescription.human;
+            var Skeltons = avatarhumanDescription.skeleton;
+
+            var BoneIndex = Array.FindIndex(HumanBones, I => I.humanName == HumanName);
+            if (BoneIndex == -1) return null;
+            var bonename = HumanBones[BoneIndex].boneName;
+            var SkeltonBone = Array.Find(Skeltons, I => I.name == bonename);
+            return SkeltonBone;
+        }
+
     }
 }
