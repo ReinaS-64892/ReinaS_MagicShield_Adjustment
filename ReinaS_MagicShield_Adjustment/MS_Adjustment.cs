@@ -12,7 +12,8 @@ namespace ReinaS_MagicShield_Adjustment
         static void Postfix(OcPlMaster ____Pl)
         {
             Animator Animator;
-            if (____Pl.IsVRoid)
+            var IsVRM = ____Pl.IsVRoid;
+            if (IsVRM)
             {
                 Animator = ____Pl.VrmModel.GetComponent<Animator>();
             }
@@ -27,8 +28,16 @@ namespace ReinaS_MagicShield_Adjustment
 
             var ScaleOffset = MSA_PluginCore.SizeOffset.Value;
             var HeightOffset = MSA_PluginCore.HeightOffset.Value;
+            var IsCraftopiamodelSizeAdjust = MSA_PluginCore.SizeAdjustCraftopiaModel.Value;
 
-            AdjustUtility.Adjustment(Animator, MagicShieldGameObject.transform, ScaleOffset, HeightOffset);
+            float MagicShieldSize = MagicShieldGameObject.transform.localScale.y;
+
+            if (IsVRM || IsCraftopiamodelSizeAdjust)
+            {
+                MagicShieldSize = AdjustUtility.ScaleAdjustment(Animator, MagicShieldGameObject.transform, ScaleOffset);
+            }
+
+            AdjustUtility.PositionAdjustment(Animator, MagicShieldGameObject.transform, HeightOffset, MagicShieldSize);
 
         }
 
