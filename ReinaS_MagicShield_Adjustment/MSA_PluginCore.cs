@@ -52,9 +52,9 @@ namespace ReinaS_MagicShield_Adjustment
 
         }
 
-        public static float ScaleAdjustment(Animator AvatarAnimator, Transform MagicShiled, float ScaleOffset)
+        public static float ScaleAdjustment(Animator AvatarAnimator, Transform MagicShiled, float ScaleOffset, float HaightScaleOffset = 1f)
         {
-            var MagicShieldSize = (GetHaight(AvatarAnimator.avatar) / 2) * ScaleOffset;
+            var MagicShieldSize = ((GetHaight(AvatarAnimator.avatar) * HaightScaleOffset) / 2) * ScaleOffset;
 
 
             MagicShiled.localScale = new Vector3(MagicShieldSize, MagicShieldSize, MagicShieldSize);

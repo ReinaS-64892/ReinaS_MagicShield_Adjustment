@@ -13,9 +13,11 @@ namespace ReinaS_MagicShield_Adjustment
         {
             Animator Animator;
             var IsVRM = ____Pl.IsVRoid;
+            var HaightScaleOffset = 1f;
             if (IsVRM)
             {
                 Animator = ____Pl.VrmModel.GetComponent<Animator>();
+                HaightScaleOffset = ____Pl.CharaMakeData.vroidScale;
             }
             else
             {
@@ -34,7 +36,7 @@ namespace ReinaS_MagicShield_Adjustment
 
             if (IsVRM || IsCraftopiamodelSizeAdjust)
             {
-                MagicShieldSize = AdjustUtility.ScaleAdjustment(Animator, MagicShieldGameObject.transform, ScaleOffset);
+                MagicShieldSize = AdjustUtility.ScaleAdjustment(Animator, MagicShieldGameObject.transform, ScaleOffset, HaightScaleOffset);
             }
 
             AdjustUtility.PositionAdjustment(Animator, MagicShieldGameObject.transform, HeightOffset, MagicShieldSize);
